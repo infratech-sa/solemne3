@@ -1,0 +1,22 @@
+<header class="header-container">
+  <div class="company-box">
+    <h1>InfraTech S.A.</h1>
+    <h2>Portal de incidentes</h2>
+  </div>
+
+  <div class="header-buttons">
+    <button class="btn home-btn" routerLink="/">Inicio</button>
+    
+    <!-- Mostrar botones según el estado de autenticación -->
+    <div *ngIf="!isLoggedIn()" class="auth-buttons">
+      <button class="btn login-btn" routerLink="/Login">Iniciar Sesión</button>
+      <button class="btn register-btn" routerLink="/Register">Registrarse</button>
+    </div>
+
+    <!-- Mostrar información del usuario logueado -->
+    <div *ngIf="isLoggedIn()" class="user-info">
+      <span class="welcome-message">Bienvenido(a), {{ currentUser?.name }}!</span>
+      <button class="btn logout-btn" (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,96 @@
+<div class="incident-form-wrapper">
+  <h2>Reportar incidente</h2>
+  
+  <!-- Estado de conexión -->
+  <div class="connection-status" [class.connected]="connectionStatus.includes('✅')" [class.disconnected]="connectionStatus.includes('❌')">
+    <p>{{ connectionStatus }}</p>
+  </div>
+  
+  <form (ngSubmit)="onSubmit()" #incidentForm="ngForm" class="incident-form">
+
+    <label for="fechaOpcion">Fecha del incidente:</label>
+    <select
+      id="fechaOpcion"
+      name="fechaOpcion"
+      [(ngModel)]="fechaOpcion"
+      (ngModelChange)="onFechaOpcionChange()"
+      required
+    >
+      <option value="" disabled>Selecciona el tipo de fecha</option>
+      <option value="automatica">Fecha automática (ahora)</option>
+      <option value="manual">Fecha manual</option>
+    </select>
+
+    <div *ngIf="fechaOpcion === 'manual'">
+      <label for="fechaManual">Selecciona la fecha:</label>
+      <input
+        type="date"
+        id="fechaManual"
+        name="fechaManual"
+        [(ngModel)]="fechaManual"
+        required
+      />
+    </div>
+
+    <div *ngIf="fechaOpcion === 'automatica'" class="fecha-automatica-info">
+      <p><strong>Fecha automática:</strong> {{ fechaActual }}</p>
+    </div>
+
+    <label for="tipo">Tipo de incidente:</label>
+    <select
+      id="tipo"
+      name="tipo"
+      [(ngModel)]="incident.category"
+      required
+    >
+      <option value="" disabled>Selecciona un tipo</option>
+      <option value="Hardware">Hardware</option>
+      <option value="Software">Software</option>
+      <option value="Red">Red</option>
+      <option value="Otros">Otros</option>
+    </select>
+
+    <label for="prioridad">Prioridad:</label>
+    <select
+      id="prioridad"
+      name="prioridad"
+      [(ngModel)]="incident.priority"
+      required
+    >
+      <option value="" disabled>Seleccione una prioridad</option>
+      <option value="Alta">Alta</option>
+      <option value="Media">Media</option>
+      <option value="Baja">Baja</option>
+    </select>
+    
+    <label for="titulo">Título del problema:</label>
+    <input
+      type="text"
+      id="titulo"
+      name="titulo"
+      [(ngModel)]="incident.title"
+      placeholder="Escribe brevemente el titulo"
+      required
+    />
+    
+    <label for="descripcion">Descripción:</label>
+    <textarea
+      id="descripcion"
+      name="descripcion"
+      rows="5"
+      placeholder="Descripción detallada del incidente"
+      [(ngModel)]="incident.description"
+      class="static-textarea"
+      required
+    ></textarea>
+
+    <button
+      type="submit"
+      [disabled]="!incidentForm.form.valid || isSubmitting"
+      class="submit-btn"
+    >
+      <span *ngIf="isSubmitting">Enviando...</span>
+      <span *ngIf="!isSubmitting">Enviar Incidente</span>
+    </button>
+  </form>
+</div>

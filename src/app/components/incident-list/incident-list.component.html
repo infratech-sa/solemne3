@@ -1,0 +1,115 @@
+<div class="incident-list-container">
+  <h2>Listado de Incidentes</h2>
+
+  <!-- Filtros -->
+  <div class="filters-container">
+    <div>
+      <label for="tipo">Tipo</label>
+      <select id="tipo" [(ngModel)]="filterCategory" (change)="applyFilters()">
+        <option value="">Todos</option>
+        <option value="Hardware">Hardware</option>
+        <option value="Software">Software</option>
+        <option value="Red">Red</option>
+        <option value="Otros">Otros</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="estado">Estado</label>
+      <select id="estado" [(ngModel)]="filterStatus" (change)="applyFilters()">
+        <option value="">Todos</option>
+        <option value="Abierto">Abierto</option>
+        <option value="En progreso">En progreso</option>
+        <option value="Cerrado">Cerrado</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="prioridad">Prioridad</label>
+      <select id="prioridad" [(ngModel)]="filterPriority" (change)="applyFilters()">
+        <option value="">Todas</option>
+        <option value="Alta">Alta</option>
+        <option value="Media">Media</option>
+        <option value="Baja">Baja</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="fecha">Fecha desde</label>
+      <input type="date" id="fecha" [(ngModel)]="filterDate" (change)="applyFilters()">
+    </div>
+
+    <div>
+      <label for="ordenar">Ordenar por</label>
+      <select id="ordenar" [(ngModel)]="sortOrder" (change)="applyFilters()">
+        <option value="priority">Prioridad</option>
+        <option value="newest">Más recientes</option>
+        <option value="oldest">Más antiguos</option>
+        <option value="id">ID</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Lista de incidentes -->
+  <div *ngIf="filteredIncidents.length > 0; else emptyList">
+    <div *ngFor="let incident of filteredIncidents" class="incident-card">
+
+      <div *ngIf="isUnresolvedFor48Hours(incident)" class="unresolved-alert">
+        Incidente sin resolver
+      </div>
+
+      <h3>{{ incident.title }}</h3>
+      <p class="incident-description">{{ incident.description }}</p>
+
+      <div class="incident-details">
+        <strong>Tipo:</strong> {{ incident.category }}<br>
+        <strong>Asignado a:</strong> {{ incident.assignedTo || 'Sin asignar' }}
+      </div>
+
+      <div class="incident-meta">
+        <!-- Estado -->
+        <span [ngClass]="'status-' + incident.status.toLowerCase().replace(' ', '-')">
+          Estado: {{ incident.status }}
+        </span>
+
+        <!-- Prioridad -->
+        <span class="priority-badge" [ngClass]="incident.priority.toLowerCase()">
+          Prioridad: {{ incident.priority }}
+        </span>
+
+        <!-- Fecha creación -->
+        <span class="date-info">
+          Fecha creación: {{ formatDateSpanish(incident.createdAt) }}
+        </span>
+
+        <!-- Fecha de término (solo si está cerrado) -->
+        <span *ngIf="incident.status === 'Cerrado' && incident.closingTime" class="closing-time">
+          Fecha de término: {{ formatDateSpanish(incident.closingTime) }}
+        </span>
+
+        <!-- Resolución -->
+        <span class="resolution" *ngIf="incident.resolution">
+          <strong>Resolución:</strong> {{ incident.resolution }}
+        </span>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="action-buttons">
+        <button (click)="goToDetails(incident.id)" class="details-btn">
+          Ver/Editar Detalles
+        </button>
+        <button (click)="goToDetails(incident.id)" class="assign-btn" *ngIf="incident.status !== 'Cerrado'">
+          Asignar Técnico
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #emptyList>
+    <div class="empty-list-message">
+      No hay incidentes que coincidan con los filtros seleccionados.
+    </div>
+  </ng-template>
+</div>
+

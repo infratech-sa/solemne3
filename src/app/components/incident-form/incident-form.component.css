@@ -1,0 +1,133 @@
+.incident-form-wrapper {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f3ade4b2;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(25, 118, 210, 0.2);
+  font-family: 'Times New Roman', Times, serif;
+  color: #333;
+}
+
+.incident-form-wrapper h2 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #1976d2;
+  text-align: center;
+}
+
+.incident-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.incident-form label {
+  font-weight: 600;
+  color: #1976d2;
+}
+
+.incident-form input,
+.incident-form select,
+.incident-form textarea {
+  padding: 0.8rem;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.3s;
+}
+
+.incident-form input:focus,
+.incident-form select:focus,
+.incident-form textarea:focus {
+  box-shadow: 0 0 5px rgba(25, 118, 210, 0.6);
+  border-color: #1976d2;
+}
+
+/* Estilo específico para el textarea de descripción */
+.static-textarea {
+  min-height: 120px;
+  max-height: 120px;
+  height: 120px !important;
+  resize: none;
+  overflow-y: auto;
+}
+
+.submit-btn {
+  align-self: center;
+  background: #1976d2;
+  color: white;
+  padding: 0.7rem 2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #0d47a1;
+}
+
+.submit-btn:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+}
+
+.validation-message {
+  background: #ffebee;
+  border: 1px solid #f44336;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.validation-message p {
+  margin: 0;
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+.fecha-automatica-info {
+  background: #e8f5e8;
+  border: 1px solid #4caf50;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.fecha-automatica-info p {
+  margin: 0;
+  color: #2e7d32;
+}
+
+/* Estado de conexión */
+.connection-status {
+  margin-bottom: 1.5rem;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.connection-status.connected {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.connection-status.disconnected {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
